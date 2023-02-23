@@ -1,4 +1,4 @@
-# Tucil2_13521009
+# Tucil2_13521001_13521009
 Tugas Kecil 2 IF2211 Strategi Algoritma 
 13521001 Angger Ilham
 13521009 Christophorus Dharma Winata
