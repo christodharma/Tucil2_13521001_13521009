@@ -1,4 +1,5 @@
 # Tucil2_13521009
+<<<<<<< HEAD
 Tugas Kecil 2 IF2211 Strategi Algoritma 
 13521001 Angger Ilham
 13521009 Christophorus Dharma Winata
@@ -26,3 +27,9 @@ Program sederhana untuk implementasi algoritma divide and conquer untuk mencari 
 ## Author
 Angger Ilham - 13521001
 Christophorus Dharma Winata - 13521009
+=======
+
+Tugas Kecil Strategi Algoritma
+Angger Ilham (13521001)
+Christophorus Dharma Winata (13521009)
+>>>>>>> e16af42227a95d302aa00bee16f68ca928f181c3
