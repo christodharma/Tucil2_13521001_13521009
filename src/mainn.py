@@ -15,12 +15,12 @@ def hitungjarak(point1, point2) :
 
 # find closest point
 def closestpoint(titik) :
+    global euclideancount
     banyaktitik = len(titik)
     if banyaktitik <=3 : # memakai bruteforce kalau ada 3 atau kurang titik
         jarakminimum = float("inf")
         for i in range(banyaktitik) :
             for j in range(i+1, banyaktitik) :
-                global euclideancount
                 euclideancount += 1
                 if(hitungjarak(titik[i],titik[j]) < jarakminimum) :
                     jarakminimum = hitungjarak(titik[i], titik[j])
@@ -35,12 +35,11 @@ def closestpoint(titik) :
         bagiankanan = titik[tengah:]
 
         # manggil fungsi closestpoint lagi untuk tiap bagian
-        bagiankiriterdekat = closestpoint(bagiankiri)
-        bagiankananterdekat = closestpoint(bagiankanan)
+        bagiankiriterdekat, _ = closestpoint(bagiankiri)
+        bagiankananterdekat, _ = closestpoint(bagiankanan)
 
         # jarak terdekat antara bagian kiri dan kanan
-        global euclideancount
-        euclideancount += 1
+        euclideancount += 2
         jarak = min(hitungjarak(bagiankiriterdekat[0], bagiankiriterdekat[1]),
                             hitungjarak(bagiankananterdekat[0], bagiankanan[1]))
 
@@ -48,21 +47,19 @@ def closestpoint(titik) :
         titikgaristengah = (titik[tengah][0], titik[tengah][1], titik[tengah][2])
         titiktengah = []
         for n in titik :
-            if abs(titik[0] - titikgaristengah[0] < jarak) :
-                titiktengah.append(titik)
+            if abs(n[0] - titikgaristengah[0]) < jarak :
+                titiktengah.append(n)
         
         jaraktitiktengahterdekat = float("inf")
         for i in range(len(titiktengah)) :
             for j in range(i+1, min(i + 8, len(titiktengah))) :
-               global euclideancount
                euclideancount += 1
                jarak = hitungjarak(titiktengah[i], titiktengah[j])
-               if(jarak < titiktengahterdekat) :
+               if(jarak < jaraktitiktengahterdekat) :
                    jaraktitiktengahterdekat = jarak
                    titiktengahterdekat = (titiktengah[i], titiktengah[j])
         
         # return pasangan titik terdekat
-        global euclideancount
         euclideancount += 1
         if jaraktitiktengahterdekat < jarak :
             return titiktengahterdekat, jaraktitiktengahterdekat
