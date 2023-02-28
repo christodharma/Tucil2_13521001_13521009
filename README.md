@@ -10,8 +10,6 @@ Program sederhana untuk implementasi algoritma divide and conquer untuk mencari 
 ```
 .
 │   README.md
-├───bin
-│       Executable, etc.
 ├───doc
 │       Dokumen 
 ├───src

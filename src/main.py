@@ -141,7 +141,7 @@ else :
     # inisialisasi titik-titik
     titik = []
     for i in range(n):
-        point = [round(random.uniform(0,1)*10,2) for j in range(dimensi)]
+        point = [random.randint(0,1000) for j in range(dimensi)]
         titik.append(point)
     #inisialisasi penghitungan operasi euclidean
     euclideancount = 0
