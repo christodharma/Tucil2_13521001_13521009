@@ -19,8 +19,9 @@ Berikut adalah library python yang harus anda install terlebih dahulu agar dapat
         Source code
 ```
 ## How to run
-1. 
-2. step 2
+1. clone repository ini
+2. buka main.py pada folder src
+3. jalankan program
 
 ## Author
 Angger Ilham - 13521001
