@@ -17,6 +17,7 @@ def closestpoint(titik, divideandconquer=True, sumbudivide=1) :
     if(divideandconquer):    
         banyaktitik = len(titik)
         if banyaktitik <=3 : # memakai bruteforce kalau ada 3 atau kurang titik
+            # print("<",end='')
             jarakminimum = float("inf")
             for i in range(banyaktitik) :
                 for j in range(i+1, banyaktitik) :
@@ -24,12 +25,10 @@ def closestpoint(titik, divideandconquer=True, sumbudivide=1) :
                     if(jar < jarakminimum) :
                         jarakminimum = jar
                         titikterdekat = (titik[i], titik[j])
+            # print(jarakminimum, ">", sep='', end="")
             return titikterdekat, jarakminimum
-        
-
         else :
             # mengurutkan set titik berdasarkan suatu sumbu
-            print(sumbudivide)
             sortedTitik = fun.sortBySumbu(titik,sumbudivide)
             # membagi titik jadi 2 bagian
             tengah = banyaktitik //2
@@ -37,13 +36,13 @@ def closestpoint(titik, divideandconquer=True, sumbudivide=1) :
             bagiankanan = sortedTitik[tengah:]
 
             # manggil fungsi closestpoint lagi untuk tiap bagian
-            print("kiri", end=" ")
-            print(sumbudivide+1, end= ' ') if sumbudivide+1 <= 3 else print(sumbudivide+1, "->", 1)
+            # print("kiri ->", end=" ")
+            # print(sumbudivide+1, end= ' ') if sumbudivide+1 <= 3 else print(sumbudivide+1, "->", 1, end=' ')
             bagiankiriterdekat, jarbagiankiriterdekat = closestpoint(bagiankiri,True,sumbudivide+1 if sumbudivide+1 <= 3 else 1)
-            print("kanan", end=" ")
-            print(sumbudivide+1, end= ' ') if sumbudivide+1 <= 3 else print(1)
+            # print("kanan ->", end=" ")
+            # print(sumbudivide+1, end= ' ') if sumbudivide+1 <= 3 else print(sumbudivide+1, "->", 1,end=' ')
             bagiankananterdekat, jarbagiankananterdekat = closestpoint(bagiankanan,True,sumbudivide+1 if sumbudivide+1 <= 3 else 1)
-            print("pass")
+            # print("\npass")
             # jarak terdekat antara bagian kiri dan kanan
             jarak = min(jarbagiankiriterdekat, jarbagiankananterdekat)
 
@@ -57,18 +56,19 @@ def closestpoint(titik, divideandconquer=True, sumbudivide=1) :
             jaraktitiktengahterdekat = float("inf")
             for i in range(len(titiktengah)) :
                 for j in range(i+1, min(i + 8, len(titiktengah))) :
-                    jarak = hitungjarak(titiktengah[i], titiktengah[j])
-                    if(jarak < jaraktitiktengahterdekat) :
-                        jaraktitiktengahterdekat = jarak
+                    jarakTengah = hitungjarak(titiktengah[i], titiktengah[j]) #ky e salah ndek iki, nimbun jarak dari dnc
+                    if(jarakTengah < jaraktitiktengahterdekat) :
+                        jaraktitiktengahterdekat = jarakTengah
                         titiktengahterdekat = (titiktengah[i], titiktengah[j])
-            
+            # print("[",jaraktitiktengahterdekat,"]")
             # return pasangan titik terdekat
-            
+            jarakKiriTerdekat = hitungjarak(bagiankiriterdekat[0], bagiankiriterdekat[1])
+            jarakKananTerdekat = hitungjarak(bagiankananterdekat[0], bagiankananterdekat[1])
             if jaraktitiktengahterdekat < jarak :
                 return titiktengahterdekat, jaraktitiktengahterdekat
-            elif hitungjarak(bagiankiriterdekat[0], bagiankiriterdekat[1]) < hitungjarak(bagiankananterdekat[0], bagiankananterdekat[1]) :
-                return bagiankiriterdekat, hitungjarak(bagiankiriterdekat[0], bagiankananterdekat[1])
-            else : return bagiankananterdekat, hitungjarak(bagiankananterdekat[0], bagiankananterdekat[1])  
+            elif jarakKiriTerdekat < jarakKananTerdekat :
+                return bagiankiriterdekat, jarakKiriTerdekat
+            else : return bagiankananterdekat, jarakKananTerdekat  
     elif (not divideandconquer): #strategi bruteforce
         banyaktitik = len(titik)
         jarakminimum = float("inf")
@@ -100,7 +100,6 @@ print("Pasangan titik terdekat : ", titikterdekat)
 print("Jaraknya : ", jaraktitikterdekat)
 print("banyak perhitungan euclidean : ", euclideancount)
 print(f"Lama program berjalan : {(stopTime-startTime)*(1000):.6f} ms")
-bonus1.showcartesian(titikterdekat,titik)
 
 euclideancount = 0
 startTimeB = time.time()
@@ -111,4 +110,12 @@ print("Pasangan titik terdekat : ", titikterdekat_bruteforce)
 print("Jaraknya : ", jaraktitikterdekat_bruteforce)
 print("banyak perhitungan euclidean : ", euclideancount)
 print(f"Lama program berjalan : {(stopTimeB-startTimeB)*(1000):.6f} ms")
-bonus1.showcartesian(titikterdekat_bruteforce,titik)
+# vis = input("Visualisasikan hasil? (Y/N) ")
+vis = "n"
+if (vis in "Yy"):
+    print("Visualisasi hasil Divide and Conquer")
+    bonus1.showcartesian(titikterdekat,titik)
+    print("Visualisasi hasil Bruteforce")
+    bonus1.showcartesian(titikterdekat_bruteforce,titik)
+elif (vis in "Nn"):
+    print("Tidak divisualisasikan")
