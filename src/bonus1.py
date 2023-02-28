@@ -1,8 +1,5 @@
 import matplotlib.pyplot as plt
 
-euclideancount = 0
-
-
 def showcartesian(titikterdekat,titik) :
     fig = plt.figure()
     x = []

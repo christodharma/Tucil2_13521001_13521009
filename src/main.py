@@ -1,19 +1,37 @@
 import math
 import random
 import time
-import functions as fun
 import bonus1
 # calculate distance
+# def hitungjarak(point1, point2) :
+#     global euclideancount
+#     euclideancount += 1
+#     x1, y1, z1 = point1
+#     x2, y2, z2 = point2
+#     return math.sqrt((x1-x2)**2 + (y1-y2)**2 + (z1-z2)**2)
 def hitungjarak(point1, point2) :
+    jarak = 0
+    for i in range(len(point1)) :
+        jarak += (point1[i] - point2[i])**2
     global euclideancount
     euclideancount += 1
-    x1, y1, z1 = point1
-    x2, y2, z2 = point2
-    return math.sqrt((x1-x2)**2 + (y1-y2)**2 + (z1-z2)**2)
+    return math.sqrt(jarak)
 
+#sorting untuk proses divide
+#selalu terurut membesar
+#tidak mengubah data input
+def sortBySumbu(setTitik, sumbu):
+    if (sumbu == 'x' or sumbu == 'X'):
+        sumbu = 1
+    elif (sumbu == 'y' or sumbu == 'Y'):
+        sumbu = 2
+    elif (sumbu == 'z' or sumbu == 'Z'):
+        sumbu = 3
+    newSetTitik = sorted(setTitik, key=lambda row:(row[sumbu-1 if sumbu<=len(setTitik[0]) else 0]))
+    return newSetTitik
 
 # find closest point
-def closestpoint(titik, divideandconquer=True, sumbudivide=1) :
+def closestpoint(titik, divideandconquer=True,dimensi = 3, sumbudivide=1) :
     if(divideandconquer):    
         banyaktitik = len(titik)
         if banyaktitik <=3 : # memakai bruteforce kalau ada 3 atau kurang titik
@@ -29,7 +47,7 @@ def closestpoint(titik, divideandconquer=True, sumbudivide=1) :
             return titikterdekat, jarakminimum
         else :
             # mengurutkan set titik berdasarkan suatu sumbu
-            sortedTitik = fun.sortBySumbu(titik,sumbudivide)
+            sortedTitik = sortBySumbu(titik,sumbudivide)
             # membagi titik jadi 2 bagian
             tengah = banyaktitik //2
             bagiankiri = sortedTitik[:tengah]
@@ -38,16 +56,18 @@ def closestpoint(titik, divideandconquer=True, sumbudivide=1) :
             # manggil fungsi closestpoint lagi untuk tiap bagian
             # print("kiri ->", end=" ")
             # print(sumbudivide+1, end= ' ') if sumbudivide+1 <= 3 else print(sumbudivide+1, "->", 1, end=' ')
-            bagiankiriterdekat, jarbagiankiriterdekat = closestpoint(bagiankiri,True,sumbudivide+1 if sumbudivide+1 <= 3 else 1)
+            bagiankiriterdekat, jarbagiankiriterdekat = closestpoint(bagiankiri,True,dimensi,sumbudivide+1 if sumbudivide+1 <= dimensi else 1)
             # print("kanan ->", end=" ")
             # print(sumbudivide+1, end= ' ') if sumbudivide+1 <= 3 else print(sumbudivide+1, "->", 1,end=' ')
-            bagiankananterdekat, jarbagiankananterdekat = closestpoint(bagiankanan,True,sumbudivide+1 if sumbudivide+1 <= 3 else 1)
+            bagiankananterdekat, jarbagiankananterdekat = closestpoint(bagiankanan,True,dimensi,sumbudivide+1 if sumbudivide+1 <= dimensi else 1)
             # print("\npass")
             # jarak terdekat antara bagian kiri dan kanan
             jarak = min(jarbagiankiriterdekat, jarbagiankananterdekat)
 
             # pasangan titik terdekat yang ada didekat garis pembagi
-            titikgaristengah = (titik[tengah][0], titik[tengah][1], titik[tengah][2])
+            titikgaristengah = []
+            for i in range(dimensi) :
+                titikgaristengah.append(titik[tengah][i])           #gagal buat dimensi 2
             titiktengah = []
             for n in titik :
                 if abs(n[0] - titikgaristengah[0]) < jarak :
@@ -56,7 +76,7 @@ def closestpoint(titik, divideandconquer=True, sumbudivide=1) :
             jaraktitiktengahterdekat = float("inf")
             for i in range(len(titiktengah)) :
                 for j in range(i+1, min(i + 8, len(titiktengah))) :
-                    jarakTengah = hitungjarak(titiktengah[i], titiktengah[j]) #ky e salah ndek iki, nimbun jarak dari dnc
+                    jarakTengah = hitungjarak(titiktengah[i], titiktengah[j])
                     if(jarakTengah < jaraktitiktengahterdekat) :
                         jaraktitiktengahterdekat = jarakTengah
                         titiktengahterdekat = (titiktengah[i], titiktengah[j])
@@ -81,41 +101,60 @@ def closestpoint(titik, divideandconquer=True, sumbudivide=1) :
         return titikterdekat, jarakminimum
 
 # main program
+while True:
+    mauDimensi = input("apakah ingin menggunakan dimensi lain? (Y/N) ")
+    if (mauDimensi in "YyNn"): break
+    else : print("Invalid!")
+if (mauDimensi in "Yy"):
+    dimensi = int(input("oke! masukkan dimensi: "))
+elif (mauDimensi in "Nn"):
+    print("baik! default ke 3")
+    dimensi = 3
 n = int(input("Masukkan jumlah titik : "))
-titik = []
-for i in range(n) :
-    x = round(random.uniform(0,1)*10,2)
-    y = round(random.uniform(0,1)*10,2)
-    z = round(random.uniform(0,1)*10,2)
-    # x = random.randint(-10,10)
-    # y = random.randint(-10,10)
-    # z = random.randint(-10,10)
-    titik.append((x,y,z))
+if (n <= 1):
+    # exception handle: titik yang dimasukkan tidak bisa dibuat pasangan
+    euclideancount = 0
+    startTime = time.time()
+    stopTime = time.time()
+    print("Pasangan titik terdekat : ", "NULL")
+    print("Jaraknya : ", 0)
+    print("banyak perhitungan euclidean : ", euclideancount)
+    print(f"Lama program berjalan : {(stopTime-startTime)*(1000):.6f} ms")
+else :
+    # inisialisasi titik-titik
+    titik = []
+    for i in range(n):
+        point = [round(random.uniform(0,1)*10,2) for j in range(dimensi)]
+        titik.append(point)
+    #inisialisasi penjumlahan operasi euclidean
+    euclideancount = 0
+    startTime = time.time()
+    titikterdekat, jaraktitikterdekat = closestpoint(titik)
+    stopTime = time.time()
+    print("::::::::::\tSTRATEGI DIVIDE AND CONQUER\t::::::::::")
+    print("Pasangan titik terdekat : ", titikterdekat)
+    print("Jaraknya : ", jaraktitikterdekat)
+    print("banyak perhitungan euclidean : ", euclideancount)
+    print(f"Lama program berjalan : {(stopTime-startTime)*(1000):.6f} ms")
 
-euclideancount = 0
-startTime = time.time()
-titikterdekat, jaraktitikterdekat = closestpoint(titik)
-stopTime = time.time()
-print("Pasangan titik terdekat : ", titikterdekat)
-print("Jaraknya : ", jaraktitikterdekat)
-print("banyak perhitungan euclidean : ", euclideancount)
-print(f"Lama program berjalan : {(stopTime-startTime)*(1000):.6f} ms")
-
-euclideancount = 0
-startTimeB = time.time()
-titikterdekat_bruteforce, jaraktitikterdekat_bruteforce = closestpoint(titik, False)
-stopTimeB = time.time()
-print("---------------BRUTEFORCE---------------")
-print("Pasangan titik terdekat : ", titikterdekat_bruteforce)
-print("Jaraknya : ", jaraktitikterdekat_bruteforce)
-print("banyak perhitungan euclidean : ", euclideancount)
-print(f"Lama program berjalan : {(stopTimeB-startTimeB)*(1000):.6f} ms")
-# vis = input("Visualisasikan hasil? (Y/N) ")
-vis = "n"
-if (vis in "Yy"):
-    print("Visualisasi hasil Divide and Conquer")
-    bonus1.showcartesian(titikterdekat,titik)
-    print("Visualisasi hasil Bruteforce")
-    bonus1.showcartesian(titikterdekat_bruteforce,titik)
-elif (vis in "Nn"):
-    print("Tidak divisualisasikan")
+    #inisialisasi penjumlahan operasi euclidean
+    euclideancount = 0
+    startTimeB = time.time()
+    titikterdekat_bruteforce, jaraktitikterdekat_bruteforce = closestpoint(titik, False)
+    stopTimeB = time.time()
+    print("\n::::::::::\tSTRATEGI BRUTEFORCE      \t::::::::::")
+    print("Pasangan titik terdekat : ", titikterdekat_bruteforce)
+    print("Jaraknya : ", jaraktitikterdekat_bruteforce)
+    print("banyak perhitungan euclidean : ", euclideancount)
+    print(f"Lama program berjalan : {(stopTimeB-startTimeB)*(1000):.6f} ms")
+    if (dimensi <= 3 and dimensi > 0):
+        vis = input("Visualisasikan hasil? (Y/N) ")
+        if (vis in "Yy"):
+            print("Visualisasi hasil Divide and Conquer")
+            bonus1.showcartesian(titikterdekat,titik)
+            print("Visualisasi hasil Bruteforce")
+            bonus1.showcartesian(titikterdekat_bruteforce,titik)
+        elif (vis in "Nn"):
+            print("Tidak divisualisasikan")
+    else:
+        print("Dimensi abstrak, tidak divisualisasikan")
