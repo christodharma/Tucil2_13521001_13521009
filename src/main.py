@@ -129,7 +129,7 @@ else :
     #inisialisasi penjumlahan operasi euclidean
     euclideancount = 0
     startTime = time.time()
-    titikterdekat, jaraktitikterdekat = closestpoint(titik)
+    titikterdekat, jaraktitikterdekat = closestpoint(titik, True, dimensi, 1)
     stopTime = time.time()
     print("::::::::::\tSTRATEGI DIVIDE AND CONQUER\t::::::::::")
     print("Pasangan titik terdekat : ", titikterdekat)
@@ -140,7 +140,7 @@ else :
     #inisialisasi penjumlahan operasi euclidean
     euclideancount = 0
     startTimeB = time.time()
-    titikterdekat_bruteforce, jaraktitikterdekat_bruteforce = closestpoint(titik, False)
+    titikterdekat_bruteforce, jaraktitikterdekat_bruteforce = closestpoint(titik, False, dimensi, 1)
     stopTimeB = time.time()
     print("\n::::::::::\tSTRATEGI BRUTEFORCE      \t::::::::::")
     print("Pasangan titik terdekat : ", titikterdekat_bruteforce)
