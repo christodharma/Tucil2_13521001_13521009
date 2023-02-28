@@ -21,7 +21,7 @@ Berikut adalah library python yang harus anda install terlebih dahulu agar dapat
 ## How to run
 1. clone repository ini
 2. buka main.py pada folder src
-3. jalankan program
+3. run program dan program siap untuk digunakan
 
 ## Author
 Angger Ilham - 13521001
