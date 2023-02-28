@@ -50,6 +50,9 @@ def divideanconquer(titik) :
                 return pasangan, jarak
 
     else : # lebih dari 3 maka pake divide conquer
+        #note: urutkan berdasarkan absis dari kecil membesar
+        #my method: mengurutkan ngga selalu pake absis, tapi juga sumbu2 berikutnya sampe dia kepotong kecil
+        #tujuannya buat ngurangi titik dengan jarak x rendah tapi ada di y/z yang jauh
         kiri =  titik[:long//2]
         kanan = titik[long//2:]
 
@@ -99,9 +102,9 @@ def bruteforce(titik) :
             jar = euclideanDistance(titik[i],titik[j])
             if(jar < jarakminimum) :
                 jarakminimum = jar
-                titik = (titik[i], titik[j])
+                titikterdekat = (titik[i], titik[j])
     
-    return titik,jarakminimum
+    return titikterdekat,jarakminimum
 
 
         
