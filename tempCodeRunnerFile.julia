@@ -2,31 +2,23 @@ import random
 import math
 
 
-def sortArr(titik, sumbu) : #quicksort dengan x sebagai pembandingnya
+def sortArr(titik) : #quicksort dengan x sebagai pembandingnya
     if(len(titik)) < 2 :
         return titik
     else :
-        pointer = titik[0][sumbu]
+        pointer = titik[0]
         l = []
         r = []
         for i in range(1, len(titik)) :
-            if (titik[i][sumbu] < pointer) : l.append(titik[i])
+            if (titik[i] < pointer) : l.append(titik[i])
             else : r.append(titik[i])
-        
-        # print(l, titik[0], r)
-        # print()
-        return sortArr(l,sumbu) + [titik[0]] + sortArr(r,sumbu)
+        return sortArr(l) + [pointer] + sortArr(r)
 
 
 def euclideanDistance(titik1,titik2) :
-    panjang = 0.0
-    for i in range(len(titik1)) :
-        panjang += (titik1[i] - titik2[i])**2
-    return math.sqrt(panjang)
+    return math.sqrt((titik1[0] - titik2[0])**2 + (titik1[1] - titik2[1])**2 + (titik1[2] - titik2[2])**2)
 
-def shortestDistance(titik, dimensi) :
-    # print("titik0 :", titik[0])
-    # print("titik1 :", titik[1])
+def shortestDistance(titik) :
     long = len(titik)
     if(long == 2): #bruteforce 2 titik
         pasangan = (titik[0], titik[1])
@@ -65,8 +57,8 @@ def shortestDistance(titik, dimensi) :
         kanan = titik[long//2:]
 
         # ini buat minimum kiri sama minimum kanan
-        titikkiri, jarakkiri = shortestDistance(kiri, dimensi)
-        titikkanan, jarakkanan = shortestDistance(kanan, dimensi)
+        titikkiri, jarakkiri = shortestDistance(kiri)
+        titikkanan, jarakkanan = shortestDistance(kanan)
 
         
         # ambil minimum antara kiri atau kanan
@@ -82,14 +74,11 @@ def shortestDistance(titik, dimensi) :
         for i in range(len(kanan)) :
             if(kanan[i][0] <= d + jarak) : midpoint.append(kanan[i])
 
-
-        for k in range(dimensi-1,0,-1) :
-            midpoint = sortArr(midpoint,k)
-            for i in range(len(midpoint)) :
-                for j in range(i+1, len(midpoint)) :
-                    if(abs(midpoint[i][0] - midpoint[j][0]) < jarak or abs(midpoint[i][k] - midpoint[j][k]) < jarak) :
-                        pasangan2, jarak2 = (midpoint[i], midpoint[j]), euclideanDistance(midpoint[i], midpoint[j])
-                        if jarak2 < jarak : pasangan, jarak = pasangan2, jarak2
+        for i in range(len(midpoint)) :
+            for j in range(i+1, len(midpoint)) :
+                if(abs(midpoint[i][0] - midpoint[j][0]) < jarak) :
+                    pasangan2, jarak2 = (midpoint[i], midpoint[j]), euclideanDistance(midpoint[i], midpoint[j])
+                    if jarak2 < jarak : pasangan, jarak = pasangan2, jarak2
 
         return pasangan, jarak
 
@@ -97,6 +86,14 @@ def shortestDistance(titik, dimensi) :
 def bruteforce(titik) :
     long = len(titik)
     jarakminimum = float("inf")
+
+    # for i in range(long) :
+    #     print(titik[i])
+
+    # print(titik[2])
+    # print(titik[2][0])
+    # print(titik[2][1])
+    # print(titik[2][2])
 
     for i in range(long) :
         for j in range(i+1, long) :
@@ -123,33 +120,32 @@ def bruteforce(titik) :
 
 
 
-m = int(input("dimensi = "))
+
 n = int(input("angka = "))
-while(n < 2) :
-    print("minimal titik 2!!!")
-    n = int(input("angka = "))
-
 titik = []
+
 for i in range(n) :
-    point = [random.randint(0,1000) for j in range(m)]
-    titik.append(point)
+    x = random.randint(0,1000)
+    y = random.randint(0,1000)
+    z = random.randint(0,1000)
+    titik.append((x,y,z))
 
 
-# for i in range(len(titik)) :
-#     print(titik[i])
+for i in range(len(titik)) :
+    print(titik[i])
 
-# print("----aaa-----")
-titik = sortArr(titik,0)
-# print("----sds-----")
+titik = sortArr(titik)
 
-# for i in range(len(titik)) :
-#     print(titik[i])
+for i in range(len(titik)) :
+    print(titik[i])
 
-pasangan, jarak = shortestDistance(titik,m)
+pasangan, jarak = shortestDistance(titik)
 print(pasangan)
 print(jarak)
 
 print("=================================")
+# for i in range(len(titik)) :
+#     print(titik[i])
 pasangan2, jarak2 = bruteforce(titik)
 print(pasangan2)
 print(jarak2)
