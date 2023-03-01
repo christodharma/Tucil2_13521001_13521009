@@ -19,7 +19,7 @@ Berikut adalah requirement bahasa python yang dibutuhkan agar dapat menggunakan 
 ```
 .
 ├── doc
-│       Tucil2_13521001_13521009.pdf
+│   └── Tucil2_13521001_13521009.pdf
 ├── src
 │   ├── bonus1.py
 │   ├── getSpecs.py
