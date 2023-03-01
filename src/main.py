@@ -121,7 +121,7 @@ def closestPair_bruteforce(titik) :
 # main program
 print("="*40, "WELCOME", "="*40)
 while True:
-    mauDimensi = input("apakah ingin menggunakan dimensi lain [default 3 detik] ? (Y/N) ")
+    mauDimensi = input("apakah ingin menggunakan dimensi lain [default 3 dimensi] ? (Y/N) ")
     if (mauDimensi in "YyNn"): break
     else : print("Invalid!")
 if (mauDimensi in "Yy"):
