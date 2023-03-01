@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 
 def showcartesian(titikterdekat,titik) :
-    fig = plt.figure()
     x = []
     y = []
     z = []
@@ -22,15 +21,22 @@ def showcartesian(titikterdekat,titik) :
     # masukin yg lain
     for i in range(len(titik)) :
         for j in range(0,3) :
-            if(j == 0 and titik[i][j] != xclose[0] and titik[i][j] != xclose[1]) :
+            if(j == 0) :
                 x.append(titik[i][j])
-            elif(j == 1 and titik[i][j] != yclose[0] and titik[i][j] != yclose[1]) :
+            elif(j == 1) :
                 y.append(titik[i][j])
-            elif(j == 2 and titik[i][j] != zclose[0] and titik[i][j] != zclose[1]) :
+            elif(j == 2) :
                 z.append(titik[i][j])
-    ax = plt.axes(projection='3d')
-    ax.scatter(x,y,z, c = 'k')
-    ax.scatter(xclose,yclose,zclose, c = 'r')
+                
+    fig = plt.figure()
+    ax = fig.add_subplot(projection = '3d')
+
+    for i in range(len(titik)) :
+        ax.plot(x[i], y[i], z[i], 'ok')
+
+    for i in range(len(titikterdekat)) :
+        ax.plot(xclose[i], yclose[i], zclose[i], 'or')
+
     
 
     ax.set_title('Diagram kartesian')
