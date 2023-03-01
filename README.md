@@ -7,14 +7,13 @@ Tugas Kecil 2 IF2211 Strategi Algoritma
 Program sederhana untuk implementasi algoritma divide and conquer untuk mencari pasangan titik dengan jarak terdekat (closest pair) pada ruang titik tiga 3 dimensi dan membandingkan hasilnya dengan strategi algoritma
 
 ## Requirement Program
-
-Berikut adalah hal-hal yang harus anda install terlebih dahulu agar dapat menjalankan program ini :
-1. bahasa python
-2. python library matplotlib
-3. python library psutil    
-4. python library math
-5. python library random
-6. python library time
+Berikut adalah requirement bahasa python yang dibutuhkan agar dapat menggunakan program ini :
+1. matplotlib
+2. psutil
+3. platform
+4. math
+5. random
+6. time
 
 ## Program Structure
 ```

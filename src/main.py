@@ -125,7 +125,10 @@ while True:
     if (mauDimensi in "YyNn"): break
     else : print("Invalid!")
 if (mauDimensi in "Yy"):
-    dimensi = int(input("oke! masukkan dimensi: "))
+    dimensi = int(input("oke! masukkan dimensi : "))
+    while(dimensi<1) :
+        print("dimensi tidak valid! dimensi minimal adalah 1")
+        dimensi = int(input("Masukkan dimensi :"))
 elif (mauDimensi in "Nn"):
     print("baik! default ke 3")
     dimensi = 3
@@ -162,13 +165,15 @@ else :
     print("Jaraknya : ", jaraktitikterdekat_bruteforce)
     print("banyak perhitungan euclidean : ", euclideancount)
     print(f"Lama program berjalan : {(stopTimeB-startTimeB)*(1000):.6f} ms")
-    if (dimensi <= 3 and dimensi > 0):
+    if (dimensi == 3):
         vis = input("Visualisasikan hasil? (Y/N) ")
         if (vis in "Yy"):
             print("Visualisasi hasil Divide and Conquer")
             bonus1.showcartesian(titikterdekat,titik)
         elif (vis in "Nn"):
             print("Tidak divisualisasikan")
+    elif (dimensi < 3 and dimensi > 3):
+        print("Tidak Menvisualisasikan hasil")
     else:
         print("Dimensi abstrak, tidak divisualisasikan")
 getSpecs.sysSpec()
